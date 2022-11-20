@@ -1,0 +1,18 @@
+{
+  "helloWorld" : "Ciao mondo!",
+  "confirm" : "Conferma",
+  "surname" : "Cognome",
+  "name" : "Nome",
+  "email" : "Email",
+  "telephone" : "Telefono",
+  "nation" : "Nazione",
+  "province" : "Provincia",
+  "cap" : "Cap",
+  "username" : "Username",
+  "password" : "Password",
+  "login" : "Login in",
+  "yes" : "Si",
+  "no" : "No",
+  "setting" : "Impostazioni",
+  "logout": "Logout"
+}
