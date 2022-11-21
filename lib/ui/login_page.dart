@@ -10,6 +10,7 @@ import 'package:ups_flutter_app/store/visibility_store/visibility_store.dart';
 import 'package:ups_flutter_app/ui/home_page.dart';
 import 'package:ups_flutter_app/utils/encryptor.dart';
 import 'package:ups_flutter_app/utils/secure_storage.dart';
+import 'package:ups_flutter_app/utils/theme_helper.dart';
 import '../model/response/user_login.dart';
 import '../provider/dark_theme_provider.dart';
 import '../store/form_store/form_store.dart';
@@ -124,34 +125,79 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
 
     return Scaffold(
         body: Container(
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Align(
+            child: Text(
+              'Bentornato su'.toUpperCase(),
+              style: TextStyle(color: Colors.black),
+            ),
+            alignment: Alignment.centerLeft,
+          ),
+          Align(
+            child: Row(
+              children: [
+                Text(
+                  'TalkAndProfit',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 44,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '.',
+                  style: TextStyle(
+                      color: ThemeHelper.primaryElement,
+                      fontSize: 44,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            alignment: Alignment.centerLeft,
+          ),
+          SizedBox(
+            height: 50,
+          ),
           _entryField('Email', textEditingControllerEmail),
           _entryField('Password', textEditingControllerPassword,
               isPassword: true),
+          SizedBox(
+            height: 30,
+          ),
           Observer(
-              builder: ((context) => ElevatedButton.icon(
-                  icon: Observer(
-                      builder: (context) => visibilityStore.isVisible
-                          ? Icon(Icons.login)
-                          : Container(
-                              width: 24,
-                              height: 24,
-                              padding: const EdgeInsets.all(2),
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 3,
-                              ),
-                            )),
-                  label: Text('Login'),
-                  onPressed: visibilityStore.isVisible &&
-                          formStore.password.isNotEmpty &&
-                          formStore.email.isNotEmpty
-                      ? _onSubmitLogin
-                      : null)))
+              builder: ((context) => SizedBox(
+                  width: double.infinity,
+                  height: 46,
+                  child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: ThemeHelper.primaryElement),
+                      icon: Observer(
+                          builder: (context) => visibilityStore.isVisible
+                              ? Icon(
+                                  Icons.login,
+                                  color: Colors.white,
+                                )
+                              : Container(
+                                  width: 24,
+                                  height: 24,
+                                  padding: const EdgeInsets.all(2),
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 3,
+                                  ),
+                                )),
+                      label: Text(
+                        'Login',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: visibilityStore.isVisible &&
+                              formStore.password.isNotEmpty &&
+                              formStore.email.isNotEmpty
+                          ? _onSubmitLogin
+                          : null))))
         ],
       ),
     ));
