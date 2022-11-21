@@ -18,6 +18,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ups_flutter_app/utils/theme_helper.dart';
 import '../model/user.dart';
 import '../provider/bottom_navigation_bar_provider.dart';
+import '../provider/dark_theme_provider.dart';
 import '../store/bottomNavigationBar_store/bottomNavigation_store.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -69,10 +70,16 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     final _screenindexprovider =
         Provider.of<BottomNavigationBarProvider>(context);
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
-      backgroundColor: ThemeHelper.backgroundLight,
+      backgroundColor: themeChange.darkTheme
+          ? Color.fromARGB(255, 20, 20, 20)
+          : ThemeHelper.backgroundLight,
       body: _widgetPages(user)[_screenindexprovider.currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: themeChange.darkTheme
+            ? Color.fromARGB(255, 20, 20, 20)
+            : ThemeHelper.backgroundLight,
         items: _widgetTab(user),
         unselectedItemColor: Colors.grey,
         currentIndex: _screenindexprovider.currentIndex,

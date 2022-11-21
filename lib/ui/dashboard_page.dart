@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -16,6 +17,7 @@ import 'package:ups_flutter_app/utils/theme_helper.dart';
 import 'dart:async';
 import '../model/user.dart';
 import '../provider/bottom_navigation_bar_provider.dart';
+import '../provider/dark_theme_provider.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key, required this.user});
@@ -62,7 +64,7 @@ class _DashboardPageState extends State<DashboardPage>
     final _screenindexprovider =
         Provider.of<BottomNavigationBarProvider>(context);
     int currentScreenIndex = _screenindexprovider.currentIndex;
-
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     return Container(
         padding: EdgeInsets.only(left: 20, right: 20),
         child: Column(
@@ -76,11 +78,16 @@ class _DashboardPageState extends State<DashboardPage>
               'Dashboard',
               style: TextStyle(
                 fontSize: 14,
+                color: themeChange.darkTheme ? Colors.white : Colors.black,
               ),
             ),
             Text(
               'Gestisci i tuoi ups',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: themeChange.darkTheme ? Colors.white : Colors.black,
+              ),
             ),
             SizedBox(
               height: 30,
@@ -165,7 +172,9 @@ class _DashboardPageState extends State<DashboardPage>
               alignment: Alignment.center,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: themeChange.darkTheme
+                      ? CupertinoColors.label
+                      : Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -202,7 +211,9 @@ class _DashboardPageState extends State<DashboardPage>
                               alignment: Alignment.centerLeft,
                               padding: EdgeInsets.all(4),
                               decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: themeChange.darkTheme
+                                      ? CupertinoColors.label
+                                      : Colors.white,
                                   borderRadius: BorderRadius.circular(10)),
                               child: Row(
                                 mainAxisAlignment:
@@ -227,12 +238,21 @@ class _DashboardPageState extends State<DashboardPage>
                                             controllerStore
                                                 .controllers[index].name!,
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold),
+                                              fontWeight: FontWeight.bold,
+                                              color: themeChange.darkTheme
+                                                  ? Colors.white
+                                                  : CupertinoColors.label,
+                                            ),
                                           ),
                                           Text(
                                             controllerStore
                                                 .controllers[index].lastCheck!,
-                                            style: TextStyle(fontSize: 12),
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: themeChange.darkTheme
+                                                  ? Colors.white
+                                                  : CupertinoColors.label,
+                                            ),
                                           )
                                         ],
                                       )

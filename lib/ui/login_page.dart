@@ -85,6 +85,10 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
             else
               Observer(
                   builder: ((context) => TextField(
+                      style: TextStyle(
+                          color: themeChange.darkTheme
+                              ? Colors.white
+                              : Colors.black),
                       controller: controller,
                       onChanged: (value) =>
                           formStore.setEmail(textEditingControllerEmail.text),
@@ -124,82 +128,89 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
     }
 
     return Scaffold(
+        backgroundColor: themeChange.darkTheme
+            ? Color.fromARGB(255, 20, 20, 20)
+            : ThemeHelper.backgroundLight,
         body: Container(
-      padding: EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Align(
-            child: Text(
-              'Bentornato su'.toUpperCase(),
-              style: TextStyle(color: Colors.black),
-            ),
-            alignment: Alignment.centerLeft,
-          ),
-          Align(
-            child: Row(
-              children: [
-                Text(
-                  'TalkAndProfit',
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Align(
+                child: Text(
+                  'Bentornato su'.toUpperCase(),
                   style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 44,
-                      fontWeight: FontWeight.bold),
+                      color:
+                          themeChange.darkTheme ? Colors.white : Colors.black),
                 ),
-                Text(
-                  '.',
-                  style: TextStyle(
-                      color: ThemeHelper.primaryElement,
-                      fontSize: 44,
-                      fontWeight: FontWeight.bold),
+                alignment: Alignment.centerLeft,
+              ),
+              Align(
+                child: Row(
+                  children: [
+                    Text(
+                      'TalkAndProfit',
+                      style: TextStyle(
+                          color: themeChange.darkTheme
+                              ? Colors.white
+                              : Colors.black,
+                          fontSize: 44,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      '.',
+                      style: TextStyle(
+                          color: ThemeHelper.primaryElement,
+                          fontSize: 44,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            alignment: Alignment.centerLeft,
+                alignment: Alignment.centerLeft,
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              _entryField('Email', textEditingControllerEmail),
+              _entryField('Password', textEditingControllerPassword,
+                  isPassword: true),
+              SizedBox(
+                height: 30,
+              ),
+              Observer(
+                  builder: ((context) => SizedBox(
+                      width: double.infinity,
+                      height: 46,
+                      child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: ThemeHelper.primaryElement),
+                          icon: Observer(
+                              builder: (context) => visibilityStore.isVisible
+                                  ? Icon(
+                                      Icons.login,
+                                      color: Colors.white,
+                                    )
+                                  : Container(
+                                      width: 24,
+                                      height: 24,
+                                      padding: const EdgeInsets.all(2),
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 3,
+                                      ),
+                                    )),
+                          label: Text(
+                            'Login',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: visibilityStore.isVisible &&
+                                  formStore.password.isNotEmpty &&
+                                  formStore.email.isNotEmpty
+                              ? _onSubmitLogin
+                              : null))))
+            ],
           ),
-          SizedBox(
-            height: 50,
-          ),
-          _entryField('Email', textEditingControllerEmail),
-          _entryField('Password', textEditingControllerPassword,
-              isPassword: true),
-          SizedBox(
-            height: 30,
-          ),
-          Observer(
-              builder: ((context) => SizedBox(
-                  width: double.infinity,
-                  height: 46,
-                  child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: ThemeHelper.primaryElement),
-                      icon: Observer(
-                          builder: (context) => visibilityStore.isVisible
-                              ? Icon(
-                                  Icons.login,
-                                  color: Colors.white,
-                                )
-                              : Container(
-                                  width: 24,
-                                  height: 24,
-                                  padding: const EdgeInsets.all(2),
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 3,
-                                  ),
-                                )),
-                      label: Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: visibilityStore.isVisible &&
-                              formStore.password.isNotEmpty &&
-                              formStore.email.isNotEmpty
-                          ? _onSubmitLogin
-                          : null))))
-        ],
-      ),
-    ));
+        ));
   }
 }

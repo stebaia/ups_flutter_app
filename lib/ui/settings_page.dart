@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ups_flutter_app/ui/login_page.dart';
+import 'package:ups_flutter_app/utils/secure_storage.dart';
 
 import '../model/user.dart';
 import '../provider/dark_theme_provider.dart';
@@ -23,6 +25,47 @@ class _SettingUserScreenState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+
+    void _showLogoutDialog() {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              backgroundColor: themeChange.darkTheme
+                  ? Color.fromARGB(255, 20, 20, 20)
+                  : Colors.white,
+              title: Text(
+                'Logout',
+                style: TextStyle(
+                    color: themeChange.darkTheme ? Colors.white : Colors.black),
+              ),
+              content: Text('Sei sicuro di volerti sloggare?',
+                  style: TextStyle(
+                      color:
+                          themeChange.darkTheme ? Colors.white : Colors.black)),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('No')),
+                TextButton(
+                  onPressed: () {
+                    SecureStorage secureStorage = SecureStorage();
+                    secureStorage.deleteSecureData().then((value) =>
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => LoginPageScreen())),
+                            (route) => false));
+                  },
+                  child: Text('Logout!'),
+                )
+              ],
+            );
+          });
+    }
+
     return SingleChildScrollView(
         child: Column(children: [
       Container(
@@ -267,23 +310,9 @@ class _SettingUserScreenState extends State<SettingsPage> {
               ),
             ),
           ),
-          onTap: () {}),
+          onTap: () {
+            _showLogoutDialog();
+          }),
     ]));
-  }
-
-  Future<void> showInformationDialog(
-      BuildContext context, Color backgroundColor, Color anotherColor) async {
-    return await showDialog(
-        context: context,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
-            return AlertDialog(
-                backgroundColor: backgroundColor,
-                content: Container(
-                  height: 300,
-                  width: 300,
-                ));
-          });
-        });
   }
 }

@@ -13,6 +13,12 @@ class SecureStorage {
     await storage.write(key: _userKey, value: json.encode(user));
   }
 
+  Future<void> deleteSecureData() async {
+    await storage.delete(
+      key: _userKey,
+    );
+  }
+
   Future<String?> getUserFromStorage() async {
     try {
       return await storage.read(key: _userKey);

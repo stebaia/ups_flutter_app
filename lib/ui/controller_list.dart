@@ -6,12 +6,14 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:ups_flutter_app/services/list_controller_service.dart';
 import 'package:ups_flutter_app/store/controller_store/controller_store.dart';
 import 'package:ups_flutter_app/ui/components/nothing_here_widget.dart';
 
 import '../model/response/user_login.dart';
 import '../model/user.dart';
+import '../provider/dark_theme_provider.dart';
 import '../utils/theme_helper.dart';
 
 class ControllerListPage extends StatefulWidget {
@@ -50,6 +52,7 @@ class _ControllerListPageState extends State<ControllerListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     return Container(
         padding: EdgeInsets.only(left: 20, right: 20),
         child: Column(
@@ -62,12 +65,15 @@ class _ControllerListPageState extends State<ControllerListPage> {
             Text(
               'Controllers',
               style: TextStyle(
-                fontSize: 14,
-              ),
+                  fontSize: 14,
+                  color: themeChange.darkTheme ? Colors.white : Colors.black),
             ),
             Text(
               'Gestisci i controller',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: themeChange.darkTheme ? Colors.white : Colors.black),
             ),
             SizedBox(
               height: 30,
@@ -90,7 +96,8 @@ class _ControllerListPageState extends State<ControllerListPage> {
                 return Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color:
+                            themeChange.darkTheme ? Colors.black : Colors.white,
                         borderRadius: BorderRadius.circular(20)),
                     child: ListView.separated(
                         separatorBuilder: (context, index) =>
@@ -105,8 +112,9 @@ class _ControllerListPageState extends State<ControllerListPage> {
                               alignment: Alignment.centerLeft,
                               padding: EdgeInsets.all(4),
                               decoration: BoxDecoration(
-                                color: Colors.white,
-                              ),
+                                  color: themeChange.darkTheme
+                                      ? Colors.black
+                                      : Colors.white),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -130,12 +138,19 @@ class _ControllerListPageState extends State<ControllerListPage> {
                                             controllerStore
                                                 .controllers[index].name!,
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold),
+                                                fontWeight: FontWeight.bold,
+                                                color: themeChange.darkTheme
+                                                    ? Colors.white
+                                                    : Colors.black),
                                           ),
                                           Text(
                                             controllerStore
                                                 .controllers[index].lastCheck!,
-                                            style: TextStyle(fontSize: 12),
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: themeChange.darkTheme
+                                                    ? Colors.white
+                                                    : Colors.black),
                                           )
                                         ],
                                       )
