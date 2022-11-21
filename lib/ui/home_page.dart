@@ -17,6 +17,7 @@ import 'dart:async';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ups_flutter_app/utils/theme_helper.dart';
 import '../model/user.dart';
+import '../provider/bottom_navigation_bar_provider.dart';
 import '../store/bottomNavigationBar_store/bottomNavigation_store.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -66,18 +67,19 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-        builder: (_) => Scaffold(
-              backgroundColor: ThemeHelper.backgroundLight,
-              body: _widgetPages(user)[bottomNavigationStore.selectedIndex],
-              bottomNavigationBar: BottomNavigationBar(
-                items: _widgetTab(user),
-                unselectedItemColor: Colors.grey,
-                currentIndex: bottomNavigationStore.selectedIndex,
-                onTap: (int index) {
-                  bottomNavigationStore.setSelected(index);
-                },
-              ),
-            ));
+    final _screenindexprovider =
+        Provider.of<BottomNavigationBarProvider>(context);
+    return Scaffold(
+      backgroundColor: ThemeHelper.backgroundLight,
+      body: _widgetPages(user)[_screenindexprovider.currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: _widgetTab(user),
+        unselectedItemColor: Colors.grey,
+        currentIndex: _screenindexprovider.currentIndex,
+        onTap: (int index) {
+          _screenindexprovider.currentIndex = index;
+        },
+      ),
+    );
   }
 }

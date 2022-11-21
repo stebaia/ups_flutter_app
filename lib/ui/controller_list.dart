@@ -1,9 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lottie/lottie.dart';
+import 'package:ups_flutter_app/services/list_controller_service.dart';
+import 'package:ups_flutter_app/store/controller_store/controller_store.dart';
+import 'package:ups_flutter_app/ui/components/nothing_here_widget.dart';
 
+import '../model/response/user_login.dart';
 import '../model/user.dart';
+import '../utils/theme_helper.dart';
 
 class ControllerListPage extends StatefulWidget {
   const ControllerListPage({key, required this.user}) : super(key: key);
@@ -15,19 +24,143 @@ class ControllerListPage extends StatefulWidget {
 }
 
 class _ControllerListPageState extends State<ControllerListPage> {
+  ControllerStore controllerStore = ControllerStore();
+  final _timerDuration = Duration(seconds: 60);
+  late User user;
+
+  @override
+  void initState() {
+    user = widget.user;
+
+    callForControllers();
+    Timer.periodic(_timerDuration, (timer) {
+      callForControllers();
+    });
+
+    super.initState();
+  }
+
+  void callForControllers() {
+    ListControllerService(UserLogin(email: user.email, password: user.password))
+        .fetchControllerResponse()
+        .then((value) {
+      controllerStore.controllers = value.controllers!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
+        padding: EdgeInsets.only(left: 20, right: 20),
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Lottie.asset(
-          'assets/nothing.json',
-          fit: BoxFit.contain,
-        ),
-        Text('Non c\'è nessun controller qui..')
-      ],
-    ));
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 50,
+            ),
+            Text(
+              'Controllers',
+              style: TextStyle(
+                fontSize: 14,
+              ),
+            ),
+            Text(
+              'Gestisci i controller',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Observer(builder: ((context) {
+              if (controllerStore.controllers.isEmpty &&
+                  !controllerStore.flagRequested) {
+                return Container(
+                  height: 250,
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              } else if (controllerStore.controllers.isEmpty &&
+                  controllerStore.flagRequested) {
+                return Center(
+                    child: NothingHereWidget(
+                  height: 400,
+                  width: 400,
+                ));
+              } else {
+                return Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: ListView.separated(
+                        separatorBuilder: (context, index) =>
+                            Divider(color: Colors.transparent),
+                        padding: EdgeInsets.all(4),
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: controllerStore.controllers.length > 5
+                            ? 5
+                            : controllerStore.controllers.length,
+                        itemBuilder: ((context, index) => Container(
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.memory_sharp,
+                                        color: ThemeHelper.primaryElement,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            controllerStore
+                                                .controllers[index].name!,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            controllerStore
+                                                .controllers[index].lastCheck!,
+                                            style: TextStyle(fontSize: 12),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  controllerStore.controllers[index].status ==
+                                          'Online'
+                                      ? Lottie.asset(
+                                          'assets/status_red.json',
+                                          fit: BoxFit.contain,
+                                          height: 30,
+                                          width: 30,
+                                        )
+                                      : Lottie.asset(
+                                          'assets/status_green.json',
+                                          fit: BoxFit.contain,
+                                          height: 30,
+                                          width: 30,
+                                        )
+                                ],
+                              ),
+                            ))));
+              }
+            })),
+          ],
+        ));
   }
 }

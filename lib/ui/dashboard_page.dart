@@ -15,6 +15,7 @@ import 'package:ups_flutter_app/store/visibility_store/visibility_store.dart';
 import 'package:ups_flutter_app/utils/theme_helper.dart';
 import 'dart:async';
 import '../model/user.dart';
+import '../provider/bottom_navigation_bar_provider.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key, required this.user});
@@ -27,8 +28,6 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage>
     with TickerProviderStateMixin {
-  List<Controller> primeControllers = [];
-  List<Controller> updatedControllers = [];
   ControllerStore controllerStore = ControllerStore();
   final _timerDuration = Duration(seconds: 60);
   late User user;
@@ -60,6 +59,10 @@ class _DashboardPageState extends State<DashboardPage>
 
   @override
   Widget build(BuildContext context) {
+    final _screenindexprovider =
+        Provider.of<BottomNavigationBarProvider>(context);
+    int currentScreenIndex = _screenindexprovider.currentIndex;
+
     return Container(
         padding: EdgeInsets.only(left: 20, right: 20),
         child: Column(
@@ -135,18 +138,23 @@ class _DashboardPageState extends State<DashboardPage>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'I tuoi ups'.toUpperCase(),
+                  'I tuoi controller'.toUpperCase(),
                   style: TextStyle(
                       color: Colors.blueGrey,
                       fontSize: 10,
                       fontWeight: FontWeight.bold),
                 ),
-                Text(
-                  'Vedi tutti',
-                  style: TextStyle(
-                      color: ThemeHelper.primaryElement,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold),
+                GestureDetector(
+                  child: Text(
+                    'Vedi tutti',
+                    style: TextStyle(
+                        color: ThemeHelper.primaryElement,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  onTap: () {
+                    _screenindexprovider.currentIndex = 1;
+                  },
                 )
               ],
             ),
@@ -156,7 +164,6 @@ class _DashboardPageState extends State<DashboardPage>
             Align(
               alignment: Alignment.center,
               child: Container(
-                height: 250,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),

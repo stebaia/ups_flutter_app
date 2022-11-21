@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ups_flutter_app/ui/splash_page.dart';
 import 'package:ups_flutter_app/utils/theme_helper.dart';
 
+import '../provider/bottom_navigation_bar_provider.dart';
 import '../provider/dark_theme_provider.dart';
 
 class SkeletonCore extends StatefulWidget {
@@ -31,6 +32,8 @@ class _SkeletonCoreState extends State<SkeletonCore> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+            create: (context) => BottomNavigationBarProvider()),
         ChangeNotifierProvider<DarkThemeProvider>(create: (_) => themeProvider),
       ],
       child: MaterialApp(
