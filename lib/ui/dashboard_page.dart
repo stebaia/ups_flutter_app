@@ -10,9 +10,10 @@ import 'package:provider/provider.dart';
 import 'package:ups_flutter_app/model/controller.dart';
 import 'package:ups_flutter_app/model/response/list_controller_response.dart';
 import 'package:ups_flutter_app/model/response/user_login.dart';
-import 'package:ups_flutter_app/services/list_controller_service.dart';
+import 'package:ups_flutter_app/services/controller_service.dart';
 import 'package:ups_flutter_app/store/controller_store/controller_store.dart';
 import 'package:ups_flutter_app/store/visibility_store/visibility_store.dart';
+import 'package:ups_flutter_app/ui/controller_detail.dart';
 import 'package:ups_flutter_app/utils/theme_helper.dart';
 import 'dart:async';
 import '../model/user.dart';
@@ -40,7 +41,7 @@ class _DashboardPageState extends State<DashboardPage>
 
     callForControllers();
     Timer.periodic(_timerDuration, (timer) {
-      callForControllers();
+      //callForControllers();
     });
 
     super.initState();
@@ -52,7 +53,7 @@ class _DashboardPageState extends State<DashboardPage>
   }
 
   void callForControllers() {
-    ListControllerService(UserLogin(email: user.email, password: user.password))
+    ControllerService(UserLogin(email: user.email, password: user.password))
         .fetchControllerResponse()
         .then((value) {
       controllerStore.controllers = value.controllers!;
@@ -207,7 +208,8 @@ class _DashboardPageState extends State<DashboardPage>
                         itemCount: controllerStore.controllers.length > 5
                             ? 5
                             : controllerStore.controllers.length,
-                        itemBuilder: ((context, index) => Container(
+                        itemBuilder: ((context, index) => GestureDetector(
+                            child: Container(
                               alignment: Alignment.centerLeft,
                               padding: EdgeInsets.all(4),
                               decoration: BoxDecoration(
@@ -274,7 +276,18 @@ class _DashboardPageState extends State<DashboardPage>
                                         )
                                 ],
                               ),
-                            )));
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) =>
+                                          ControllerDetailPage(
+                                            user: user,
+                                            idController: controllerStore
+                                                .controllers[index].id!,
+                                          ))));
+                            })));
                   }
                 })),
               ),

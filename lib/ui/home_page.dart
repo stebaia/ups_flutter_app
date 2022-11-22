@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:ups_flutter_app/model/controller.dart';
 import 'package:ups_flutter_app/model/response/list_controller_response.dart';
 import 'package:ups_flutter_app/model/response/user_login.dart';
-import 'package:ups_flutter_app/services/list_controller_service.dart';
+import 'package:ups_flutter_app/services/controller_service.dart';
 import 'package:ups_flutter_app/store/visibility_store/visibility_store.dart';
 import 'package:ups_flutter_app/ui/controller_list.dart';
 import 'package:ups_flutter_app/ui/dashboard_page.dart';

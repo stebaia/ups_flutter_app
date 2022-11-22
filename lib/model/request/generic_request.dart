@@ -1,6 +1,6 @@
 class GenericRequest {
   String? token;
-  GenericRequest({required this.token});
+  GenericRequest({this.token});
 
   GenericRequest.fromJson(Map<String, dynamic> json) {
     token = json['token'];

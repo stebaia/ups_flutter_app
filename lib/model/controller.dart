@@ -1,4 +1,5 @@
 class Controller {
+  int? id;
   String? name;
   String? status;
   String? lastCheck;
@@ -7,7 +8,8 @@ class Controller {
   String? connection;
 
   Controller(
-      {this.name,
+      {this.id,
+      this.name,
       this.status,
       this.lastCheck,
       this.ipPublic,
@@ -15,6 +17,7 @@ class Controller {
       this.connection});
 
   Controller.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     name = json['name'];
     status = json['status'];
     lastCheck = json['last_check'];
@@ -25,6 +28,7 @@ class Controller {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['name'] = this.name;
     data['status'] = this.status;
     data['last_check'] = this.lastCheck;

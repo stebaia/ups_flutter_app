@@ -7,7 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:ups_flutter_app/services/list_controller_service.dart';
+import 'package:ups_flutter_app/services/controller_service.dart';
 import 'package:ups_flutter_app/store/controller_store/controller_store.dart';
 import 'package:ups_flutter_app/ui/components/nothing_here_widget.dart';
 
@@ -43,7 +43,7 @@ class _ControllerListPageState extends State<ControllerListPage> {
   }
 
   void callForControllers() {
-    ListControllerService(UserLogin(email: user.email, password: user.password))
+    ControllerService(UserLogin(email: user.email, password: user.password))
         .fetchControllerResponse()
         .then((value) {
       controllerStore.controllers = value.controllers!;
