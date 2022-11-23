@@ -37,7 +37,10 @@ class _SkeletonCoreState extends State<SkeletonCore> {
         ChangeNotifierProvider<DarkThemeProvider>(create: (_) => themeProvider),
       ],
       child: MaterialApp(
-        theme: ThemeData(useMaterial3: true, primarySwatch: Colors.blueGrey),
+        theme: ThemeData(
+            useMaterial3: true,
+            primarySwatch: Colors.blueGrey,
+            fontFamily: 'Poppins'),
         title: "Skeleton App",
         routes: {
           "/": (context) => SplashScreenPage(),
