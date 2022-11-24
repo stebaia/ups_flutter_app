@@ -8,6 +8,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:ups_flutter_app/store/detailController_store/detailController_store.dart';
+import 'package:ups_flutter_app/ui/components/nothing_here_widget.dart';
 import 'package:ups_flutter_app/utils/theme_helper.dart';
 
 import '../model/response/user_login.dart';
@@ -32,13 +33,14 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
   final _timerDuration = Duration(seconds: 60);
   late User user;
   late int idController;
+  late Timer _timer;
   @override
   void initState() {
     user = widget.user;
     idController = widget.idController;
     callForController();
-    Timer.periodic(_timerDuration, (timer) {
-      //callForController();
+    _timer = Timer.periodic(_timerDuration, (timer) {
+      callForController();
     });
 
     super.initState();
@@ -53,6 +55,12 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
   }
 
   @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
@@ -64,7 +72,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
           ),
           backgroundColor: themeChange.darkTheme
               ? ThemeHelper.primaryElementDark
-              : ThemeHelper.secondaryElement,
+              : ThemeHelper.secondaryElementLight,
           title: Text(
             'Dettaglio controller',
             style: TextStyle(
@@ -75,7 +83,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
         body: Container(
           color: themeChange.darkTheme
               ? ThemeHelper.primaryElementDark
-              : ThemeHelper.secondaryElement,
+              : ThemeHelper.secondaryElementLight,
           child: Observer(builder: ((context) {
             if (detailControllerStore.controller == null &&
                 !detailControllerStore.flagRequested) {
@@ -276,18 +284,29 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                                     : Colors.black),
                           ),
                           padding: EdgeInsets.all(20)),
-                      Container(
-                          padding: EdgeInsets.only(left: 20, right: 20),
-                          child: CupertinoSearchTextField(
-                            placeholder: 'Cerca',
-                          )),
-                      Expanded(
-                          child: ListView.builder(
-                        padding: EdgeInsets.all(20),
-                        shrinkWrap: true,
-                        itemBuilder: ((context, index) => Text('Ups - $index')),
-                        itemCount: 100,
-                      ))
+                      detailControllerStore.controller!.ups!.isNotEmpty
+                          ? Column(
+                              children: [
+                                Container(
+                                    padding:
+                                        EdgeInsets.only(left: 20, right: 20),
+                                    child: CupertinoSearchTextField(
+                                      placeholder: 'Cerca',
+                                    )),
+                                Expanded(
+                                    child: ListView.builder(
+                                  padding: EdgeInsets.all(20),
+                                  shrinkWrap: true,
+                                  itemBuilder: ((context, index) =>
+                                      Text('Ups - $index')),
+                                  itemCount: 100,
+                                ))
+                              ],
+                            )
+                          : NothingHereWidget(
+                              height: 400,
+                              width: 400,
+                              label: 'Non c\'è nessun ups collegato..')
                     ],
                   ),
                 ))

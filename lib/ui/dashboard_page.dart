@@ -13,6 +13,7 @@ import 'package:ups_flutter_app/model/response/user_login.dart';
 import 'package:ups_flutter_app/services/controller_service.dart';
 import 'package:ups_flutter_app/store/controller_store/controller_store.dart';
 import 'package:ups_flutter_app/store/visibility_store/visibility_store.dart';
+import 'package:ups_flutter_app/ui/components/list_controller_widget.dart';
 import 'package:ups_flutter_app/ui/controller_detail.dart';
 import 'package:ups_flutter_app/utils/theme_helper.dart';
 import 'dart:async';
@@ -34,14 +35,15 @@ class _DashboardPageState extends State<DashboardPage>
   ControllerStore controllerStore = ControllerStore();
   final _timerDuration = Duration(seconds: 60);
   late User user;
+  late Timer _timer;
 
   @override
   void initState() {
     user = widget.user;
 
     callForControllers();
-    Timer.periodic(_timerDuration, (timer) {
-      //callForControllers();
+    _timer = Timer.periodic(_timerDuration, (timer) {
+      callForControllers();
     });
 
     super.initState();
@@ -49,6 +51,7 @@ class _DashboardPageState extends State<DashboardPage>
 
   @override
   void dispose() {
+    _timer.cancel();
     super.dispose();
   }
 
@@ -126,7 +129,7 @@ class _DashboardPageState extends State<DashboardPage>
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
+                        color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 2,
                         blurRadius: 10,
                         offset: Offset(0, 3), // changes position of shadow
@@ -172,20 +175,6 @@ class _DashboardPageState extends State<DashboardPage>
             Align(
               alignment: Alignment.center,
               child: Container(
-                decoration: BoxDecoration(
-                  color: themeChange.darkTheme
-                      ? CupertinoColors.label
-                      : Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 2,
-                      blurRadius: 10,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
                 child: Observer(builder: ((context) {
                   if (controllerStore.controllers.isEmpty &&
                       !controllerStore.flagRequested) {
@@ -201,93 +190,10 @@ class _DashboardPageState extends State<DashboardPage>
                       style: TextStyle(color: Colors.white),
                     ));
                   } else {
-                    return ListView.builder(
-                        padding: EdgeInsets.all(4),
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: controllerStore.controllers.length > 5
-                            ? 5
-                            : controllerStore.controllers.length,
-                        itemBuilder: ((context, index) => GestureDetector(
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  color: themeChange.darkTheme
-                                      ? CupertinoColors.label
-                                      : Colors.white,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.memory_sharp,
-                                        color: ThemeHelper.primaryElement,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            controllerStore
-                                                .controllers[index].name!,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: themeChange.darkTheme
-                                                  ? Colors.white
-                                                  : CupertinoColors.label,
-                                            ),
-                                          ),
-                                          Text(
-                                            controllerStore
-                                                .controllers[index].lastCheck!,
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: themeChange.darkTheme
-                                                  ? Colors.white
-                                                  : CupertinoColors.label,
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  controllerStore.controllers[index].status ==
-                                          'Online'
-                                      ? Lottie.asset(
-                                          'assets/status_red.json',
-                                          fit: BoxFit.contain,
-                                          height: 30,
-                                          width: 30,
-                                        )
-                                      : Lottie.asset(
-                                          'assets/status_green.json',
-                                          fit: BoxFit.contain,
-                                          height: 30,
-                                          width: 30,
-                                        )
-                                ],
-                              ),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: ((context) =>
-                                          ControllerDetailPage(
-                                            user: user,
-                                            idController: controllerStore
-                                                .controllers[index].id!,
-                                          ))));
-                            })));
+                    return ListControllerWidget(
+                      controllers: controllerStore.controllers,
+                      user: user,
+                    );
                   }
                 })),
               ),

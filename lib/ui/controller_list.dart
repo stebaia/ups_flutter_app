@@ -9,6 +9,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:ups_flutter_app/services/controller_service.dart';
 import 'package:ups_flutter_app/store/controller_store/controller_store.dart';
+import 'package:ups_flutter_app/ui/components/list_controller_widget.dart';
 import 'package:ups_flutter_app/ui/components/nothing_here_widget.dart';
 
 import '../model/response/user_login.dart';
@@ -29,13 +30,14 @@ class _ControllerListPageState extends State<ControllerListPage> {
   ControllerStore controllerStore = ControllerStore();
   final _timerDuration = Duration(seconds: 60);
   late User user;
+  late Timer _timer;
 
   @override
   void initState() {
     user = widget.user;
 
     callForControllers();
-    Timer.periodic(_timerDuration, (timer) {
+    _timer = Timer.periodic(_timerDuration, (timer) {
       callForControllers();
     });
 
@@ -48,6 +50,12 @@ class _ControllerListPageState extends State<ControllerListPage> {
         .then((value) {
       controllerStore.controllers = value.controllers!;
     });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -91,88 +99,13 @@ class _ControllerListPageState extends State<ControllerListPage> {
                     child: NothingHereWidget(
                   height: 400,
                   width: 400,
+                  label: 'Non c\'è nessun controller qui..',
                 ));
               } else {
-                return Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        color:
-                            themeChange.darkTheme ? Colors.black : Colors.white,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: ListView.separated(
-                        separatorBuilder: (context, index) =>
-                            Divider(color: Colors.transparent),
-                        padding: EdgeInsets.all(4),
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: controllerStore.controllers.length > 5
-                            ? 5
-                            : controllerStore.controllers.length,
-                        itemBuilder: ((context, index) => Container(
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  color: themeChange.darkTheme
-                                      ? Colors.black
-                                      : Colors.white),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.memory_sharp,
-                                        color: ThemeHelper.primaryElement,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            controllerStore
-                                                .controllers[index].name!,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: themeChange.darkTheme
-                                                    ? Colors.white
-                                                    : Colors.black),
-                                          ),
-                                          Text(
-                                            controllerStore
-                                                .controllers[index].lastCheck!,
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: themeChange.darkTheme
-                                                    ? Colors.white
-                                                    : Colors.black),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  controllerStore.controllers[index].status ==
-                                          'Online'
-                                      ? Lottie.asset(
-                                          'assets/status_red.json',
-                                          fit: BoxFit.contain,
-                                          height: 30,
-                                          width: 30,
-                                        )
-                                      : Lottie.asset(
-                                          'assets/status_green.json',
-                                          fit: BoxFit.contain,
-                                          height: 30,
-                                          width: 30,
-                                        )
-                                ],
-                              ),
-                            ))));
+                return ListControllerWidget(
+                  controllers: controllerStore.controllers,
+                  user: user,
+                );
               }
             })),
           ],

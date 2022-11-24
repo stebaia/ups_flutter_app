@@ -5,9 +5,13 @@ import 'package:lottie/lottie.dart';
 
 class NothingHereWidget extends StatelessWidget {
   const NothingHereWidget(
-      {super.key, required this.height, required this.width});
+      {super.key,
+      required this.height,
+      required this.width,
+      required this.label});
   final double height;
   final double width;
+  final String label;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,7 +24,7 @@ class NothingHereWidget extends StatelessWidget {
           'assets/nothing.json',
           fit: BoxFit.contain,
         ),
-        Text('Non c\'è nessun controller qui..')
+        Text(label)
       ],
     );
   }

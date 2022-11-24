@@ -1,3 +1,5 @@
+import 'package:ups_flutter_app/model/ups.dart';
+
 class Controller {
   int? id;
   String? name;
@@ -6,6 +8,7 @@ class Controller {
   String? ipPublic;
   String? ipVpn;
   String? connection;
+  List<Ups>? ups;
 
   Controller(
       {this.id,
@@ -24,6 +27,14 @@ class Controller {
     ipPublic = json['ip_public'];
     ipVpn = json['ip_vpn'];
     connection = json['connection'];
+    if (json['ups'] != null) {
+      ups = <Ups>[];
+      json['ups'].forEach((v) {
+        ups!.add(new Ups.fromJson(v));
+      });
+    } else {
+      ups = <Ups>[];
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +46,9 @@ class Controller {
     data['ip_public'] = this.ipPublic;
     data['ip_vpn'] = this.ipVpn;
     data['connection'] = this.connection;
+    if (this.ups != null) {
+      data['ups'] = this.ups!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
