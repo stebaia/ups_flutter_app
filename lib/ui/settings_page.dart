@@ -68,25 +68,35 @@ class _SettingUserScreenState extends State<SettingsPage> {
 
     return SingleChildScrollView(
         child: Column(children: [
+      SizedBox(
+        height: 50,
+      ),
       Container(
-        height: 200,
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              widget.user.email,
-              style: TextStyle(
-                  color: ThemeHelper.primaryElement,
+          padding: EdgeInsets.only(left: 20, right: 20),
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Impostazioni',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: themeChange.darkTheme ? Colors.white : Colors.black,
+                ),
+              ),
+              Text(
+                'Gestisci le preferenze',
+                style: TextStyle(
                   fontSize: 24,
-                  fontWeight: FontWeight.w700),
-            ),
-          ],
-        ),
+                  fontWeight: FontWeight.bold,
+                  color: themeChange.darkTheme ? Colors.white : Colors.black,
+                ),
+              ),
+            ],
+          )),
+      SizedBox(
+        height: 30,
       ),
       Padding(
         padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
@@ -155,40 +165,6 @@ class _SettingUserScreenState extends State<SettingsPage> {
             child: Row(
               children: [
                 Icon(
-                  CupertinoIcons.wifi_slash,
-                  color: themeChange.darkTheme
-                      ? CupertinoColors.white
-                      : CupertinoColors.label,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Offline Mode',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color:
-                          themeChange.darkTheme ? Colors.white : Colors.black),
-                ),
-                Spacer(),
-              ],
-            ),
-          ),
-        ),
-      ),
-      Container(
-        height: 50,
-        color: themeChange.darkTheme
-            ? CupertinoColors.label
-            : CupertinoColors.white,
-        child: Padding(
-          padding: EdgeInsets.only(left: 20, right: 20, top: 16, bottom: 16),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              children: [
-                Icon(
                   CupertinoIcons.moon,
                   color: themeChange.darkTheme
                       ? CupertinoColors.white
@@ -216,56 +192,6 @@ class _SettingUserScreenState extends State<SettingsPage> {
             ),
           ),
         ),
-      ),
-      GestureDetector(
-        child: Container(
-          height: 50,
-          color: themeChange.darkTheme
-              ? CupertinoColors.label
-              : CupertinoColors.white,
-          child: Padding(
-            padding: EdgeInsets.only(left: 20, right: 20, top: 16, bottom: 16),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Row(
-                children: [
-                  Icon(
-                    CupertinoIcons.rocket,
-                    color: themeChange.darkTheme
-                        ? CupertinoColors.white
-                        : CupertinoColors.label,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Root Mode',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: themeChange.darkTheme
-                            ? Colors.white
-                            : Colors.black),
-                  ),
-                  Spacer(),
-                  Icon(
-                    CupertinoIcons.chevron_forward,
-                    color: themeChange.darkTheme
-                        ? CupertinoColors.white
-                        : CupertinoColors.label,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        onDoubleTap: () {
-          /*Navigator.push(
-                context,
-                CupertinoPageRoute(builder: (context) => RootScreen()),
-              );
-              */
-        },
       ),
       GestureDetector(
           child: Container(
