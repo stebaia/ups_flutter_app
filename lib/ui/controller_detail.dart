@@ -227,7 +227,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                                           : Colors.black),
                                 ),
                                 Text(
-                                  detailControllerStore.controller!.status!
+                                  detailControllerStore.controller!.connection!
                                       .toLowerCase(),
                                   style: TextStyle(
                                       fontSize: 14,
