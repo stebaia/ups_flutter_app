@@ -71,7 +71,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
             color: themeChange.darkTheme ? Colors.white : Colors.black,
           ),
           backgroundColor: themeChange.darkTheme
-              ? ThemeHelper.primaryElementDark
+              ? ThemeHelper.backgroundTopDark
               : ThemeHelper.secondaryElementLight,
           title: Text(
             'Dettaglio controller',
@@ -82,7 +82,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
         ),
         body: Container(
           color: themeChange.darkTheme
-              ? ThemeHelper.primaryElementDark
+              ? ThemeHelper.backgroundTopDark
               : ThemeHelper.secondaryElementLight,
           child: Observer(builder: ((context) {
             if (detailControllerStore.controller == null &&
