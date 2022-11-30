@@ -8,6 +8,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:ups_flutter_app/store/detailController_store/detailController_store.dart';
+import 'package:ups_flutter_app/ui/components/ups_row_widget.dart';
 import 'package:ups_flutter_app/ui/components/nothing_here_widget.dart';
 import 'package:ups_flutter_app/utils/theme_helper.dart';
 
@@ -34,6 +35,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
   late User user;
   late int idController;
   late Timer _timer;
+  String searchedValue = "";
   @override
   void initState() {
     user = widget.user;
@@ -103,7 +105,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                           width: 80,
                         ),
                         const SizedBox(
-                          width: 30,
+                          width: 24,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -285,24 +287,28 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                           ),
                           padding: EdgeInsets.all(20)),
                       detailControllerStore.controller!.ups!.isNotEmpty
-                          ? Column(
+                          ? Expanded(
+                              child: Column(
                               children: [
                                 Container(
-                                    padding:
-                                        EdgeInsets.only(left: 20, right: 20),
+                                    padding: EdgeInsets.only(
+                                        left: 20, right: 20, bottom: 10),
                                     child: CupertinoSearchTextField(
                                       placeholder: 'Cerca',
+                                      onChanged: (value) {
+                                        setState(() {
+                                          searchedValue = value;
+                                        });
+                                      },
                                     )),
                                 Expanded(
-                                    child: ListView.builder(
-                                  padding: EdgeInsets.all(20),
-                                  shrinkWrap: true,
-                                  itemBuilder: ((context, index) =>
-                                      Text('Ups - $index')),
-                                  itemCount: 100,
+                                    child: UpsRowWidget(
+                                  ups: detailControllerStore.controller!.ups!,
+                                  user: user,
+                                  searchValue: searchedValue,
                                 ))
                               ],
-                            )
+                            ))
                           : NothingHereWidget(
                               height: 400,
                               width: 400,

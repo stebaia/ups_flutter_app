@@ -105,6 +105,7 @@ class _ControllerListPageState extends State<ControllerListPage> {
                 return ListControllerWidget(
                   controllers: controllerStore.controllers,
                   user: user,
+                  isLimited: false,
                 );
               }
             })),

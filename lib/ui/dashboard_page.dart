@@ -193,6 +193,7 @@ class _DashboardPageState extends State<DashboardPage>
                     return ListControllerWidget(
                       controllers: controllerStore.controllers,
                       user: user,
+                      isLimited: true,
                     );
                   }
                 })),

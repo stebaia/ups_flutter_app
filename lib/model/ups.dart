@@ -1,5 +1,5 @@
 class Ups {
-  int? id;
+  String? id;
   String? name;
   String? description;
 

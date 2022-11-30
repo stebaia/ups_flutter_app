@@ -4,31 +4,31 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/controller.dart';
+import '../../model/ups.dart';
 import '../../model/user.dart';
 import '../../provider/dark_theme_provider.dart';
 import '../../utils/theme_helper.dart';
 import '../controller_detail.dart';
 
-class ListControllerWidget extends StatefulWidget {
-  const ListControllerWidget(
+class UpsRowWidget extends StatefulWidget {
+  const UpsRowWidget(
       {super.key,
-      required this.controllers,
+      required this.ups,
       required this.user,
-      required this.isLimited});
-
-  final List<Controller> controllers;
+      required this.searchValue});
   final User user;
-  final bool isLimited;
+  final List<Ups> ups;
+  final String searchValue;
   @override
-  State<ListControllerWidget> createState() => _ListControllerWidgetState();
+  State<UpsRowWidget> createState() => _UpsRowWidgetState();
 }
 
-class _ListControllerWidgetState extends State<ListControllerWidget> {
+class _UpsRowWidgetState extends State<UpsRowWidget> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     return Container(
+        margin: EdgeInsets.all(8),
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
             boxShadow: [
@@ -47,7 +47,11 @@ class _ListControllerWidgetState extends State<ListControllerWidget> {
             padding: EdgeInsets.all(4),
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: widget.isLimited ? 5 : widget.controllers.length,
+            itemCount: widget.ups
+                .where((element) => element.name!
+                    .toLowerCase()
+                    .contains(widget.searchValue.toLowerCase()))
+                .length,
             itemBuilder: ((context, index) => GestureDetector(
                 onTap: (() {
                   Navigator.push(
@@ -55,7 +59,7 @@ class _ListControllerWidgetState extends State<ListControllerWidget> {
                       MaterialPageRoute(
                           builder: ((context) => ControllerDetailPage(
                                 user: widget.user,
-                                idController: widget.controllers[index].id!,
+                                idController: int.parse(widget.ups[index].id!),
                               ))));
                 }),
                 child: Container(
@@ -81,26 +85,18 @@ class _ListControllerWidgetState extends State<ListControllerWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.controllers[index].name!,
+                                widget.ups[index].name!,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: themeChange.darkTheme
                                         ? Colors.white
                                         : Colors.black),
                               ),
-                              Text(
-                                widget.controllers[index].lastCheck!,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: themeChange.darkTheme
-                                        ? Colors.white
-                                        : Colors.black),
-                              )
                             ],
                           )
                         ],
                       ),
-                      widget.controllers[index].status == 'Online'
+                      widget.ups[index].description == 'Online'
                           ? Lottie.asset(
                               'assets/status_red.json',
                               fit: BoxFit.contain,
