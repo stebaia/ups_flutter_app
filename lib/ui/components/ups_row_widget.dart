@@ -30,17 +30,6 @@ class _UpsRowWidgetState extends State<UpsRowWidget> {
     return Container(
         margin: EdgeInsets.all(8),
         padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 10,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ],
-            color: themeChange.darkTheme ? Colors.black : Colors.white,
-            borderRadius: BorderRadius.circular(20)),
         child: ListView.separated(
             separatorBuilder: (context, index) =>
                 Divider(color: Colors.transparent),
@@ -73,9 +62,10 @@ class _UpsRowWidgetState extends State<UpsRowWidget> {
                     children: [
                       Row(
                         children: [
-                          Icon(
-                            Icons.memory_sharp,
-                            color: ThemeHelper.primaryElement,
+                          Image.asset(
+                            "assets/upsicon.png",
+                            height: 30,
+                            width: 30,
                           ),
                           SizedBox(
                             width: 10,
@@ -87,7 +77,16 @@ class _UpsRowWidgetState extends State<UpsRowWidget> {
                               Text(
                                 widget.ups[index].name!,
                                 style: TextStyle(
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
+                                    color: themeChange.darkTheme
+                                        ? Colors.white
+                                        : Colors.black),
+                              ),
+                              Text(
+                                "${widget.ups[index].usoUps!.toLowerCase()}",
+                                style: TextStyle(
+                                    fontSize: 12,
                                     color: themeChange.darkTheme
                                         ? Colors.white
                                         : Colors.black),
@@ -96,15 +95,10 @@ class _UpsRowWidgetState extends State<UpsRowWidget> {
                           )
                         ],
                       ),
-                      widget.ups[index].description == 'Online'
-                          ? Lottie.asset(
-                              'assets/status_red.json',
-                              fit: BoxFit.contain,
-                              height: 30,
-                              width: 30,
-                            )
+                      widget.ups[index].usoUps == 'Ups non in Uso'
+                          ? Container()
                           : Lottie.asset(
-                              'assets/status_green.json',
+                              'assets/warning.json',
                               fit: BoxFit.contain,
                               height: 30,
                               width: 30,

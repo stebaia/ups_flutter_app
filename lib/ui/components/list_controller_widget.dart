@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -47,7 +49,7 @@ class _ListControllerWidgetState extends State<ListControllerWidget> {
             padding: EdgeInsets.all(4),
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: widget.isLimited ? 5 : widget.controllers.length,
+            itemCount: elementLenght(widget.controllers.length),
             itemBuilder: ((context, index) => GestureDetector(
                 onTap: (() {
                   Navigator.push(
@@ -100,7 +102,8 @@ class _ListControllerWidgetState extends State<ListControllerWidget> {
                           )
                         ],
                       ),
-                      widget.controllers[index].status == 'Online'
+                      widget.controllers[index].connection!.toLowerCase() ==
+                              'online'
                           ? Lottie.asset(
                               'assets/status_red.json',
                               fit: BoxFit.contain,
@@ -116,5 +119,17 @@ class _ListControllerWidgetState extends State<ListControllerWidget> {
                     ],
                   ),
                 )))));
+  }
+
+  int elementLenght(int size) {
+    if (widget.isLimited && size >= 5) {
+      return 5;
+    } else if (widget.isLimited && size < 5) {
+      return widget.controllers.length;
+    } else if (!widget.isLimited) {
+      return widget.controllers.length;
+    } else {
+      return widget.controllers.length;
+    }
   }
 }

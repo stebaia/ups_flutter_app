@@ -31,7 +31,7 @@ class ControllerDetailPage extends StatefulWidget {
 
 class _ControllerDetailPageState extends State<ControllerDetailPage> {
   DetailControllerStore detailControllerStore = DetailControllerStore();
-  final _timerDuration = Duration(seconds: 60);
+  final _timerDuration = Duration(seconds: 600);
   late User user;
   late int idController;
   late Timer _timer;
@@ -96,16 +96,16 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
             } else {
               return Column(children: [
                 Container(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(16),
                     child: Row(
                       children: [
                         Image.asset(
                           'assets/chip.png',
-                          height: 80,
-                          width: 80,
+                          height: 76,
+                          width: 76,
                         ),
                         const SizedBox(
-                          width: 24,
+                          width: 20,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -124,7 +124,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                                 Text(
                                   detailControllerStore.controller!.name!,
                                   style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 12,
                                       color: themeChange.darkTheme
                                           ? Colors.white
                                           : Colors.black,
@@ -146,7 +146,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                                   detailControllerStore.controller!.lastCheck!
                                       .toLowerCase(),
                                   style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                       color: themeChange.darkTheme
                                           ? Colors.white
@@ -168,7 +168,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                                     ? Text(
                                         'Non Presente'.toLowerCase(),
                                         style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                             color: themeChange.darkTheme
                                                 ? Colors.white
@@ -178,7 +178,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                                         detailControllerStore
                                             .controller!.ipPublic!,
                                         style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                             color: themeChange.darkTheme
                                                 ? Colors.white
@@ -200,7 +200,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                                     ? Text(
                                         'Non Presente'.toLowerCase(),
                                         style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                             color: themeChange.darkTheme
                                                 ? Colors.white
@@ -210,7 +210,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                                         detailControllerStore
                                             .controller!.ipPublic!,
                                         style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                             color: themeChange.darkTheme
                                                 ? Colors.white
@@ -232,14 +232,15 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                                   detailControllerStore.controller!.connection!
                                       .toLowerCase(),
                                   style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                       color: themeChange.darkTheme
                                           ? Colors.white
                                           : Colors.black),
                                 ),
-                                detailControllerStore.controller!.status ==
-                                        'Online'
+                                detailControllerStore.controller!.connection!
+                                            .toLowerCase() ==
+                                        'online'
                                     ? Lottie.asset(
                                         'assets/status_red.json',
                                         fit: BoxFit.contain,
