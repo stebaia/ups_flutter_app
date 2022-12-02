@@ -150,12 +150,12 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                 child: Row(
                   children: [
                     Text(
-                      'TalkAndProfit',
+                      'UpsManagement',
                       style: TextStyle(
                           color: themeChange.darkTheme
                               ? Colors.white
                               : Colors.black,
-                          fontSize: 44,
+                          fontSize: 30,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(

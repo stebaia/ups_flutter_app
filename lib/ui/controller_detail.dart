@@ -307,6 +307,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                                   ups: detailControllerStore.controller!.ups!,
                                   user: user,
                                   searchValue: searchedValue,
+                                  idController: idController,
                                 ))
                               ],
                             ))

@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:ups_flutter_app/ui/ups_detail.dart';
 
 import '../../model/ups.dart';
 import '../../model/user.dart';
@@ -13,12 +14,14 @@ import '../controller_detail.dart';
 class UpsRowWidget extends StatefulWidget {
   const UpsRowWidget(
       {super.key,
+      required this.idController,
       required this.ups,
       required this.user,
       required this.searchValue});
   final User user;
   final List<Ups> ups;
   final String searchValue;
+  final int idController;
   @override
   State<UpsRowWidget> createState() => _UpsRowWidgetState();
 }
@@ -46,17 +49,19 @@ class _UpsRowWidgetState extends State<UpsRowWidget> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: ((context) => ControllerDetailPage(
+                          builder: ((context) => UpsDetailPage(
                                 user: widget.user,
-                                idController: int.parse(widget.ups[index].id!),
+                                idUps: int.parse(widget.ups[index].id!),
+                                idController: widget.idController,
                               ))));
                 }),
                 child: Container(
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                      color:
-                          themeChange.darkTheme ? Colors.black : Colors.white),
+                      color: themeChange.darkTheme
+                          ? Color.fromARGB(255, 20, 20, 20)
+                          : Colors.white),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
