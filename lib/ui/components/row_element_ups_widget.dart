@@ -14,6 +14,7 @@ class RowElementUpsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           label,
@@ -22,17 +23,14 @@ class RowElementUpsWidget extends StatelessWidget {
               fontWeight: FontWeight.bold,
               color: themeChange.darkTheme ? Colors.white : Colors.black),
         ),
-        Expanded(
-          child: Text(
-            maxLines: 4,
-            overflow: TextOverflow.ellipsis,
-            textDirection: TextDirection.rtl,
-            value,
-            style: TextStyle(
-                fontSize: 12,
-                color: themeChange.darkTheme ? Colors.white : Colors.black),
-          ),
-        )
+        Text(
+          maxLines: 4,
+          overflow: TextOverflow.ellipsis,
+          value,
+          style: TextStyle(
+              fontSize: 12,
+              color: themeChange.darkTheme ? Colors.white : Colors.black),
+        ),
       ],
     );
   }

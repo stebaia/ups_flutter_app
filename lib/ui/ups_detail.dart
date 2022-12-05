@@ -261,10 +261,23 @@ class _UpsDetailPageState extends State<UpsDetailPage> {
                                   value: detailControllerStore
                                       .upsDetail!.upsBatteryVoltage!),
                               Divider(color: ThemeHelper.primaryElement),
+                              SizedBox(
+                                height: 20,
+                              ),
                               RowElementUpsWidget(
                                   label: 'Fornitore:',
                                   value: detailControllerStore
                                       .upsDetail!.upsIdentManufacturer!),
+                              Divider(color: ThemeHelper.primaryElement),
+                              RowElementUpsWidget(
+                                  label: 'Modello:',
+                                  value: detailControllerStore
+                                      .upsDetail!.upsIdentModel!),
+                              Divider(color: ThemeHelper.primaryElement),
+                              RowElementUpsWidget(
+                                  label: 'Versione Software:',
+                                  value: detailControllerStore
+                                      .upsDetail!.upsIdentUPSSoftwareVersion!),
                               Divider(color: ThemeHelper.primaryElement),
                             ],
                           ),
