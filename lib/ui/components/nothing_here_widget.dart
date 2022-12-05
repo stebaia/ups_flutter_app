@@ -20,7 +20,6 @@ class NothingHereWidget extends StatelessWidget {
       children: [
         Lottie.asset(
           width: width,
-          height: height,
           'assets/nothing.json',
           fit: BoxFit.contain,
         ),

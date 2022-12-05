@@ -66,6 +66,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           leading: IconButton(
             onPressed: (() => Navigator.pop(context)),
@@ -82,7 +83,9 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                 color: themeChange.darkTheme ? Colors.white : Colors.black),
           ),
         ),
-        body: Container(
+        body: SingleChildScrollView(
+            child: Container(
+          height: MediaQuery.of(context).size.height,
           color: themeChange.darkTheme
               ? ThemeHelper.backgroundTopDark
               : ThemeHelper.secondaryElementLight,
@@ -196,7 +199,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                                           ? Colors.white
                                           : Colors.black),
                                 ),
-                                detailControllerStore.controller!.ipPublic == ''
+                                detailControllerStore.controller!.ipVpn == ''
                                     ? Text(
                                         'Non Presente'.toLowerCase(),
                                         style: TextStyle(
@@ -208,7 +211,7 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                                       )
                                     : Text(
                                         detailControllerStore
-                                            .controller!.ipPublic!,
+                                            .controller!.ipVpn!,
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
@@ -311,16 +314,18 @@ class _ControllerDetailPageState extends State<ControllerDetailPage> {
                                 ))
                               ],
                             ))
-                          : NothingHereWidget(
-                              height: 400,
-                              width: 400,
-                              label: 'Non c\'è nessun ups collegato..')
+                          : Container(
+                              child: NothingHereWidget(
+                                  height: 300,
+                                  width: 400,
+                                  label: 'Non c\'è nessun ups collegato..'),
+                            )
                     ],
                   ),
                 ))
               ]);
             }
           })),
-        ));
+        )));
   }
 }

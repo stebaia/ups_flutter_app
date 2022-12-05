@@ -155,7 +155,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                           color: themeChange.darkTheme
                               ? Colors.white
                               : Colors.black,
-                          fontSize: 30,
+                          fontSize: 26,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(

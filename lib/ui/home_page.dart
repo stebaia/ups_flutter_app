@@ -75,7 +75,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
       backgroundColor: themeChange.darkTheme
           ? Color.fromARGB(255, 20, 20, 20)
           : ThemeHelper.backgroundLight,
-      body: _widgetPages(user)[_screenindexprovider.currentIndex],
+      body: SingleChildScrollView(
+        child: _widgetPages(user)[_screenindexprovider.currentIndex],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: themeChange.darkTheme
             ? Color.fromARGB(255, 20, 20, 20)

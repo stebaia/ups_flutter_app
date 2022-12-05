@@ -107,179 +107,171 @@ class _UpsDetailPageState extends State<UpsDetailPage> {
                 color: themeChange.darkTheme ? Colors.white : Colors.black),
           ),
         ),
-        body: Container(
-            color: themeChange.darkTheme
-                ? ThemeHelper.backgroundTopDark
-                : ThemeHelper.backgroundLight,
-            child: Observer(builder: ((context) {
-              if (detailControllerStore.upsDetail == null &&
-                  !detailControllerStore.flagRequested) {
-                return Container(
-                  height: 250,
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              } else {
-                return Column(
-                  children: [
-                    Container(
-                        padding: EdgeInsets.all(16),
-                        child: Row(children: [
-                          Image.asset(
-                            'assets/upsicon.png',
-                            height: 76,
-                            width: 76,
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
+        body: SingleChildScrollView(
+            child: Container(
+                color: themeChange.darkTheme
+                    ? ThemeHelper.backgroundTopDark
+                    : ThemeHelper.backgroundLight,
+                child: Observer(builder: ((context) {
+                  if (detailControllerStore.upsDetail == null &&
+                      !detailControllerStore.flagRequested) {
+                    return Container(
+                      height: 250,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  } else {
+                    return Column(
+                      children: [
+                        Container(
+                            padding: EdgeInsets.all(16),
+                            child: Row(children: [
+                              Image.asset(
+                                'assets/upsicon.png',
+                                height: 76,
+                                width: 76,
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Nome: ',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: themeChange.darkTheme
-                                              ? Colors.white
-                                              : Colors.black),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Nome: ',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: themeChange.darkTheme
+                                                  ? Colors.white
+                                                  : Colors.black),
+                                        ),
+                                        Text(
+                                          detailControllerStore
+                                              .upsDetail!.nome!,
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: themeChange.darkTheme
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
                                     ),
-                                    Text(
-                                      detailControllerStore.upsDetail!.nome!,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: themeChange.darkTheme
-                                              ? Colors.white
-                                              : Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'ip: ',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: themeChange.darkTheme
-                                              ? Colors.white
-                                              : Colors.black),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'ip: ',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: themeChange.darkTheme
+                                                  ? Colors.white
+                                                  : Colors.black),
+                                        ),
+                                        Text(
+                                          detailControllerStore.upsDetail!.ip!,
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: themeChange.darkTheme
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
                                     ),
-                                    Text(
-                                      detailControllerStore.upsDetail!.ip!,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: themeChange.darkTheme
-                                              ? Colors.white
-                                              : Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'Status: ',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: themeChange.darkTheme
-                                              ? Colors.white
-                                              : Colors.black),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Status: ',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: themeChange.darkTheme
+                                                  ? Colors.white
+                                                  : Colors.black),
+                                        ),
+                                        Text(
+                                          detailControllerStore
+                                              .upsDetail!.connection!
+                                              .toLowerCase(),
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                              color: themeChange.darkTheme
+                                                  ? Colors.white
+                                                  : Colors.black),
+                                        ),
+                                        detailControllerStore
+                                                    .upsDetail!.connection!
+                                                    .toLowerCase() ==
+                                                'connesso'
+                                            ? Lottie.asset(
+                                                'assets/status_red.json',
+                                                fit: BoxFit.contain,
+                                                height: 30,
+                                                width: 30,
+                                              )
+                                            : Lottie.asset(
+                                                'assets/status_green.json',
+                                                fit: BoxFit.contain,
+                                                height: 30,
+                                                width: 30,
+                                              )
+                                      ],
                                     ),
-                                    Text(
-                                      detailControllerStore
-                                          .upsDetail!.connection!
-                                          .toLowerCase(),
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                          color: themeChange.darkTheme
-                                              ? Colors.white
-                                              : Colors.black),
-                                    ),
-                                    detailControllerStore.upsDetail!.connection!
-                                                .toLowerCase() ==
-                                            'connesso'
-                                        ? Lottie.asset(
-                                            'assets/status_red.json',
-                                            fit: BoxFit.contain,
-                                            height: 30,
-                                            width: 30,
-                                          )
-                                        : Lottie.asset(
-                                            'assets/status_green.json',
-                                            fit: BoxFit.contain,
-                                            height: 30,
-                                            width: 30,
-                                          )
-                                  ],
-                                ),
-                              ]),
-                        ])),
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      child: LinearPercentIndicator(
-                          barRadius: Radius.circular(20),
-                          lineHeight: 30.0,
-                          center: Text(
-                            detailControllerStore
-                                .upsDetail!.upsEstimatedChargeRemaining!,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                                  ]),
+                            ])),
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          child: LinearPercentIndicator(
+                              barRadius: Radius.circular(20),
+                              lineHeight: 30.0,
+                              center: Text(
+                                detailControllerStore
+                                    .upsDetail!.upsEstimatedChargeRemaining!,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              percent: getPercentFromString(
+                                  detailControllerStore
+                                      .upsDetail!.upsEstimatedChargeRemaining!),
+                              backgroundColor: Colors.grey,
+                              progressColor: getColorFromPercentage(
+                                  getPercentFromString(detailControllerStore
+                                      .upsDetail!
+                                      .upsEstimatedChargeRemaining!))),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          child: Column(
+                            children: [
+                              RowElementUpsWidget(
+                                  label: 'Uso ups:',
+                                  value: detailControllerStore
+                                      .upsDetail!.upsSecondsOnBattery!),
+                              Divider(color: ThemeHelper.primaryElement),
+                              RowElementUpsWidget(
+                                  label: 'Minuti rimanenti:',
+                                  value: detailControllerStore.upsDetail!
+                                      .upsEstimatedMinutesRemaining!),
+                              Divider(color: ThemeHelper.primaryElement),
+                              RowElementUpsWidget(
+                                  label: 'Voltaggio:',
+                                  value: detailControllerStore
+                                      .upsDetail!.upsBatteryVoltage!),
+                              Divider(color: ThemeHelper.primaryElement),
+                              RowElementUpsWidget(
+                                  label: 'Fornitore:',
+                                  value: detailControllerStore
+                                      .upsDetail!.upsIdentManufacturer!),
+                              Divider(color: ThemeHelper.primaryElement),
+                            ],
                           ),
-                          percent: getPercentFromString(detailControllerStore
-                              .upsDetail!.upsEstimatedChargeRemaining!),
-                          backgroundColor: Colors.grey,
-                          progressColor: getColorFromPercentage(
-                              getPercentFromString(detailControllerStore
-                                  .upsDetail!.upsEstimatedChargeRemaining!))),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          RowElementUpsWidget(
-                              label: 'Uso ups:',
-                              value: detailControllerStore
-                                  .upsDetail!.upsSecondsOnBattery!),
-                          Divider(color: ThemeHelper.primaryElement),
-                          RowElementUpsWidget(
-                              label: 'Minuti rimanenti:',
-                              value: detailControllerStore
-                                  .upsDetail!.upsEstimatedMinutesRemaining!),
-                          Divider(color: ThemeHelper.primaryElement),
-                          RowElementUpsWidget(
-                              label: 'Voltaggio:',
-                              value: detailControllerStore
-                                  .upsDetail!.upsBatteryVoltage!),
-                          Divider(color: ThemeHelper.primaryElement),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          RowElementUpsWidget(
-                              label: 'Fornitore:',
-                              value: detailControllerStore
-                                  .upsDetail!.upsIdentManufacturer!),
-                          Divider(color: ThemeHelper.primaryElement),
-                          RowElementUpsWidget(
-                              label: 'Modello:',
-                              value: detailControllerStore
-                                  .upsDetail!.upsIdentModel!),
-                          Divider(color: ThemeHelper.primaryElement),
-                          RowElementUpsWidget(
-                              label: 'Versione Software:',
-                              value: detailControllerStore
-                                  .upsDetail!.upsIdentUPSSoftwareVersion!),
-                          Divider(color: ThemeHelper.primaryElement),
-                        ],
-                      ),
-                    )
-                  ],
-                );
-              }
-            }))));
+                        )
+                      ],
+                    );
+                  }
+                })))));
   }
 }
