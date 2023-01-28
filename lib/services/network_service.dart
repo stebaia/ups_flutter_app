@@ -46,9 +46,13 @@ class NetworkService {
   }
 
   Future<User> networkGetToken() async {
+    SecureStorage secureStorage = new SecureStorage();
+    String? idOneSignal = await secureStorage.getOneSignalKeyFromStorage();
+    Map<String, dynamic> bodyRequest = user.toMap();
+    bodyRequest.addAll({'idPlayerOneSignal': idOneSignal});
     final response = await http.post(
         Uri.https(SkeletonApi.BASE_URL, SkeletonApi.TAKE_TOKEN),
-        body: user.toMap());
+        body: bodyRequest);
     if (response.statusCode >= 200 && response.statusCode <= 300) {
       TokenResponse tokenResponse =
           TokenResponse.fromJson(jsonDecode(response.body));
