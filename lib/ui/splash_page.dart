@@ -40,19 +40,14 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
   Future loadSplash() async {
     SecureStorage secureStorage = SecureStorage();
-    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-
-    OneSignal.shared.setAppId("00787a2d-2fd9-4828-982a-4117513b5d6c");
-
-    // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-    OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
-      print("Accepted permission: $accepted");
-    });
 
     String? userToMap = await secureStorage.getUserFromStorage();
     final status = await OneSignal.shared.getDeviceState();
     final String? osUserID = status?.userId;
-    secureStorage.setOneSignalKeyInStorage(osUserID!);
+    if (osUserID != null) {
+      secureStorage.setOneSignalKeyInStorage(osUserID);
+    }
+
     if (userToMap != null) {
       User user = User.fromMap(json.decode(userToMap));
       Navigator.pushReplacement(
