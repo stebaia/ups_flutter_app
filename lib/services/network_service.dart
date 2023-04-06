@@ -49,7 +49,9 @@ class NetworkService {
     SecureStorage secureStorage = new SecureStorage();
     String? idOneSignal = await secureStorage.getOneSignalKeyFromStorage();
     Map<String, dynamic> bodyRequest = user.toMap();
-    bodyRequest.addAll({'idPlayerOneSignal': idOneSignal});
+    if (idOneSignal != null) {
+      bodyRequest.addAll({'idPlayerOneSignal': idOneSignal});
+    }
     final response = await http.post(
         Uri.https(SkeletonApi.BASE_URL, SkeletonApi.TAKE_TOKEN),
         body: bodyRequest);
