@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:http_retry/http_retry.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:ups_flutter_app/network/skeleton_api.dart';
 import 'package:ups_flutter_app/utils/app_exception.dart';
 import 'package:ups_flutter_app/utils/secure_storage.dart';
@@ -51,6 +52,10 @@ class NetworkService {
     Map<String, dynamic> bodyRequest = user.toMap();
     if (idOneSignal != null) {
       bodyRequest.addAll({'idPlayerOneSignal': idOneSignal});
+    } else {
+      final status = await OneSignal.shared.getDeviceState();
+      final String? osUserID = status?.userId;
+      bodyRequest.addAll({'idPlayerOneSignal': osUserID});
     }
     final response = await http.post(
         Uri.https(SkeletonApi.BASE_URL, SkeletonApi.TAKE_TOKEN),
