@@ -279,6 +279,39 @@ class _UpsDetailPageState extends State<UpsDetailPage> {
                                   value: detailControllerStore
                                       .upsDetail!.upsIdentUPSSoftwareVersion!),
                               Divider(color: ThemeHelper.primaryElement),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              RowElementUpsWidget(
+                                  label: 'Controllo stato Inverter:',
+                                  value: detailControllerStore
+                                      .upsDetail!.statusInverter!),
+                              Divider(color: ThemeHelper.primaryElement),
+                              RowElementUpsWidget(
+                                  label: 'Controllo Corrente in Entrata:',
+                                  value: detailControllerStore
+                                      .upsDetail!.sysInputRMSCurPhaseA!),
+                              Divider(color: ThemeHelper.primaryElement),
+                              RowElementUpsWidget(
+                                  label: 'Controllo Corrente in Uscita :',
+                                  value: detailControllerStore
+                                      .upsDetail!.sysOutputRMSCurPhaseA!),
+                              Divider(color: ThemeHelper.primaryElement),
+                              RowElementUpsWidget(
+                                  label: 'Controllo Tensione in Entrata :',
+                                  value: detailControllerStore
+                                      .upsDetail!.sysInputRMSANVolt!),
+                              Divider(color: ThemeHelper.primaryElement),
+                              RowElementUpsWidget(
+                                  label: 'Controllo Tensione in Uscita:',
+                                  value: detailControllerStore
+                                      .upsDetail!.sysOutputRMSANVolt!),
+                              Divider(color: ThemeHelper.primaryElement),
+                              RowElementUpsWidget(
+                                  label: 'Temperatura UPS:',
+                                  value: detailControllerStore
+                                      .upsDetail!.airTemperatureCel!),
+                              Divider(color: ThemeHelper.primaryElement),
                             ],
                           ),
                         )

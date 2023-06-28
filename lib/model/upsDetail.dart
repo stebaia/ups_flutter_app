@@ -11,6 +11,12 @@ class UpsDetail {
   String? upsEstimatedChargeRemaining;
   String? upsEstimatedMinutesRemaining;
   String? upsBatteryVoltage;
+  String? statusInverter;
+  String? sysInputRMSCurPhaseA;
+  String? sysOutputRMSCurPhaseA;
+  String? sysInputRMSANVolt;
+  String? sysOutputRMSANVolt;
+  String? airTemperatureCel;
 
   UpsDetail(
       {this.nome,
@@ -24,7 +30,13 @@ class UpsDetail {
       this.upsSecondsOnBattery,
       this.upsEstimatedChargeRemaining,
       this.upsEstimatedMinutesRemaining,
-      this.upsBatteryVoltage});
+      this.upsBatteryVoltage,
+      this.statusInverter,
+      this.sysInputRMSANVolt,
+      this.sysInputRMSCurPhaseA,
+      this.sysOutputRMSANVolt,
+      this.sysOutputRMSCurPhaseA,
+      this.airTemperatureCel});
 
   UpsDetail.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
@@ -39,6 +51,13 @@ class UpsDetail {
     upsEstimatedChargeRemaining = json['upsEstimatedChargeRemaining'];
     upsEstimatedMinutesRemaining = json['upsEstimatedMinutesRemaining'];
     upsBatteryVoltage = json['upsBatteryVoltage'];
+
+    statusInverter = json['statusInverter'];
+    sysInputRMSANVolt = json['SysInputRMS_AN_Volt'];
+    sysOutputRMSANVolt = json['SysOutputRMS_AN_Volt'];
+    sysInputRMSCurPhaseA = json['SysInputRMSCurPhaseA'];
+    sysOutputRMSCurPhaseA = json['SysOutputRMSCurPhaseA'];
+    airTemperatureCel = json['AirTemperatureCel'];
   }
 
   Map<String, dynamic> toJson() {
@@ -55,6 +74,12 @@ class UpsDetail {
     data['upsEstimatedChargeRemaining'] = this.upsEstimatedChargeRemaining;
     data['upsEstimatedMinutesRemaining'] = this.upsEstimatedMinutesRemaining;
     data['upsBatteryVoltage'] = this.upsBatteryVoltage;
+    data['statusInverter'] = this.statusInverter;
+    data['SysInputRMS_AN_Volt'] = this.sysInputRMSANVolt;
+    data['SysInputRMSCurPhaseA'] = this.sysInputRMSCurPhaseA;
+    data['SysOutputRMS_AN_Volt'] = this.sysOutputRMSANVolt;
+    data['SysOutputRMSCurPhaseA'] = this.sysOutputRMSCurPhaseA;
+    data['AirTemperatureCel'] = this.airTemperatureCel;
     return data;
   }
 }
